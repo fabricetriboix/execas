@@ -2,7 +2,7 @@ SHELL := /bin/sh
 CC = gcc
 CFLAGS = -O -Wall
 
-all: execas test
+all: execas
 
 execas: execas.c
 	$(CC) $(CFLAGS) $< -o $@

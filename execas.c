@@ -62,10 +62,6 @@ int lookup_group(const char* group)
 
 char* find_program(const char* prg)
 {
-    if (access(prg, R_OK | X_OK) == 0) {
-        return strdup(prg);
-    }
-
     const char* path_env = getenv("PATH");
     if (path_env == NULL) {
         path_env = "/sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin";
@@ -84,7 +80,7 @@ char* find_program(const char* prg)
         token = strtok(NULL, ":");
     }
 
-    fprintf(stderr, "ERROR: Program `%s` not found in PATH: %s\n", prg, path);
+    fprintf(stderr, "ERROR: Program `%s` not found in PATH: %s\n", prg, path_env);
     free(path);
     exit(9);
 }
@@ -187,7 +183,14 @@ int main(int argc, char** argv)
 
     /* Execute the command */
 
-    char* prg = find_program(argv[optind]);
+    char* prg;
+    if (strchr(argv[optind], '/') != NULL) {
+        // Absolute or relative path given
+        prg = strdup(argv[optind]);
+    } else {
+        // Only program name given => Find it in the PATH
+        prg = find_program(argv[optind]);
+    }
 
     if (verbose) {
         fprintf(stderr, "Executing: %s ", prg);
