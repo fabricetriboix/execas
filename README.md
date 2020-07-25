@@ -1,3 +1,5 @@
+[![Coverity Scan Status](https://scan.coverity.com/projects/21500/badge.svg)](https://scan.coverity.com/projects/21500)
+
 execas
 ======
 

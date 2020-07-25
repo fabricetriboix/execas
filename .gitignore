@@ -55,3 +55,6 @@ dkms.conf
 *.orig
 .*.swp
 execas
+cov-int
+*.tgz
+*.tar.gz

@@ -77,6 +77,7 @@ char* find_program(const char* prg)
             free(path);
             return prg_path;
         }
+        free(prg_path);
         token = strtok(NULL, ":");
     }
 
@@ -201,6 +202,7 @@ int main(int argc, char** argv)
     }
     execve(prg, argv+optind, environ);
     fprintf(stderr, "ERROR: Failed to execute command `%s`: [%d] %s\n",
-            argv[optind], errno, strerror(errno));
+            prg, errno, strerror(errno));
+    free(prg);
     exit(9);
 }
